@@ -1,0 +1,4 @@
+.idea/
+target/
+/src/main/resources/logs/
+/src/test/resources/logs/
