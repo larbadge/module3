@@ -1,10 +1,14 @@
 package model;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,21 +16,20 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Student {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @ToString.Exclude
     private String id;
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(nullable = false)
     private int age;
-    @Column(nullable = false)
+    @Column(name = "entry_date", nullable = false)
     private LocalDateTime entryDate = LocalDateTime.now();
     @ElementCollection
     @CollectionTable(name = "student_grades")
@@ -37,4 +40,18 @@ public class Student {
     @OneToOne
     private Group group;
 
+    @Override
+    public String toString() {
+        String str = "%s %s %d years old from %s group(entry %s)";
+        if (group != null) {
+            return String.format(str,
+                    getFirstName(), getLastName(),
+                    getAge(), getGroup().getName(),
+                    getEntryDate().format(FORMATTER));
+        } else
+            return String.format(str,
+                    getFirstName(), getLastName(),
+                    getAge(), "none",
+                    getEntryDate().format(FORMATTER));
+    }
 }

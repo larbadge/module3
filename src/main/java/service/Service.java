@@ -1,7 +1,10 @@
 package service;
 
-import dto.TopAndBottomPerformingSubjects;
+import model.Lecturer;
+import model.Student;
 import repository.*;
+
+import java.util.List;
 
 public class Service {
 
@@ -23,22 +26,34 @@ public class Service {
     }
 
     public void printStudentsWithAverageGradeUpperThan(double grade) {
-        studentRepository.getAllByAverageGradeGreaterThan(grade)
-                .forEach(System.out::println);
+        List<Student> grades = studentRepository.getAllByAverageGradeGreaterThan(grade);
+        if (grades.size() != 0) {
+            grades.forEach(System.out::println);
+        } else {
+            System.out.println("Nothing... Try again");
+        }
     }
 
     public void printLecturersByFirstOrLastName(String name) {
-        lecturerRepository.getAllByNameOrLastname(name)
-                .forEach(System.out::println);
+        List<Lecturer> lecturers = lecturerRepository.getAllByNameOrLastname(name);
+        if (lecturers.size() != 0) {
+            lecturers.forEach(System.out::println);
+        } else {
+            System.out.println("Nothing... Try again");
+        }
     }
 
     public void printGroupsByName(String name) {
-        groupRepository.getAllByName(name)
-                .forEach(System.out::println);
+        List<String> groups = groupRepository.getAllByName(name);
+        if (groups.size() != 0) {
+            groups.forEach(System.out::println);
+        } else {
+            System.out.println("Nothing... Try again");
+        }
     }
 
-    public void printCountOfStudentsByGroup() {
-        groupRepository.countStudensByName()
+    public void printEachGroupCountOfStudents() {
+        groupRepository.countStudensByEach()
                 .forEach(System.out::println);
     }
 
@@ -47,8 +62,8 @@ public class Service {
                 .forEach(System.out::println);
     }
 
-    public void printSubjectsByGradeThresholds() {
-        TopAndBottomPerformingSubjects dto = subjectRepository.getTopAndBottomPerformingSubjects();
+    public void printTopAndBottomPerformingSubjects() {
+        var dto = subjectRepository.getTopAndBottomPerformingSubjects();
         System.out.println(dto);
 
     }

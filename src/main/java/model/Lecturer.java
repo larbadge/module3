@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Lecturer {
 
     @Id
@@ -20,9 +19,9 @@ public class Lecturer {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @ToString.Exclude
     private String id;
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(nullable = false)
     private int age;
@@ -35,4 +34,13 @@ public class Lecturer {
         this.subject = subject;
     }
 
+    @Override
+    public String toString() {
+        String str = "%s %s, %d years old, teach %s subject";
+        if (subject != null) {
+            return String.format(str, getFirstName(), getLastName(), getAge(), getSubject().getName());
+        } else {
+            return String.format(str, getFirstName(), getLastName(), getAge(), "none");
+        }
+    }
 }

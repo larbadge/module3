@@ -9,7 +9,7 @@ import model.Subject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 
-import static jpa.JpaUtil.getEntityManager;
+import static util.JpaUtil.getEntityManager;
 
 class SubjectRepositoryImpl implements SubjectRepository {
 

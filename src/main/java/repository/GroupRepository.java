@@ -2,15 +2,14 @@ package repository;
 
 import dto.GroupAverageGrade;
 import dto.GroupStudentsCount;
-import model.Group;
 
 import java.util.List;
 
 public interface GroupRepository {
 
-    List<Group> getAllByName(String name);
+    List<String> getAllByName(String name);
 
-    List<GroupStudentsCount> countStudensByName();
+    List<GroupStudentsCount> countStudensByEach();
 
     List<GroupAverageGrade> getAverageGrades();
 

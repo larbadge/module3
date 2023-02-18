@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.util.List;
 
-import static jpa.JpaUtil.getEntityManager;
+import static util.JpaUtil.getEntityManager;
 
 class StudentRepositoryImpl implements StudentRepository {
 

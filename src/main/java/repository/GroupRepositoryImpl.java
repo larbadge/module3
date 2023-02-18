@@ -8,20 +8,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.util.List;
 
-import static jpa.JpaUtil.getEntityManager;
+import static util.JpaUtil.getEntityManager;
 
 class GroupRepositoryImpl implements GroupRepository {
 
     @Override
-    public List<Group> getAllByName(String name) {
-        String jpql = "SELECT g FROM Group g WHERE g.name LIKE :name";
-        return getEntityManager().createQuery(jpql, Group.class)
+    public List<String> getAllByName(String name) {
+        String jpql = "SELECT g.name FROM Group g WHERE g.name LIKE :name";
+        return getEntityManager().createQuery(jpql, String.class)
                 .setParameter("name", "%" + name + "%")
                 .getResultList();
     }
 
     @Override
-    public List<GroupStudentsCount> countStudensByName() {
+    public List<GroupStudentsCount> countStudensByEach() {
         EntityManager em = getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<GroupStudentsCount> query = cb.createQuery(GroupStudentsCount.class);

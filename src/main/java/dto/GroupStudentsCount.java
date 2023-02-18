@@ -12,6 +12,6 @@ public class GroupStudentsCount {
 
     @Override
     public String toString() {
-        return String.format("Group %s have %d students%n", getGroupName(), getStudentCount());
+        return String.format("Group %s have %d students", getGroupName(), getStudentCount());
     }
 }

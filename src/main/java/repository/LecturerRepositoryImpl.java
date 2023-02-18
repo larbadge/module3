@@ -10,7 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static jpa.JpaUtil.getEntityManager;
+import static util.JpaUtil.getEntityManager;
 
 class LecturerRepositoryImpl implements LecturerRepository {
 

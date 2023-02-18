@@ -21,16 +21,16 @@ public class Subject {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String name;
-    @OneToOne
+    @OneToOne()
     private Lecturer lecturer;
 
     @Override
     public String toString() {
-        String s = "%s, is taught %s";
+        String s = "%s, teach %s %s";
         if (lecturer != null) {
-            return String.format(s, getName(), lecturer.getLastName());
+            return String.format(s, getName(), lecturer.getFirstName(), lecturer.getLastName());
         } else {
-            return String.format(s, getName(), "none");
+            return String.format(s, getName(), "none", "");
         }
     }
 }

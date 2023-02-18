@@ -17,7 +17,7 @@ public class TopAndBottomPerformingSubjects {
 
     @Override
     public String toString() {
-        return String.format("Subject with the top academic performance- %s(grade = %.1f)%nAnd with bottom- %s(grade = %.1f)",
+        return String.format("Subject with the best academic performance- %s(grade = %.1f)%nAnd with the worst- %s(grade = %.1f)",
                 getTopSubject(), getTopSubjectAverageGrade(),
                 getBottomSubject(), getBottomSubjectAverageGrade()
         );
