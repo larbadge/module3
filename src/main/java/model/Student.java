@@ -1,9 +1,6 @@
 package model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,11 +12,13 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Student {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @ToString.Exclude
     private String id;
     @Column(nullable = false)
     private String firstName;

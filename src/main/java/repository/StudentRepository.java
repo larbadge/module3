@@ -1,11 +1,11 @@
 package repository;
 
-import dto.StudentsCountByGroupDTO;
 import model.Student;
 
 import java.util.List;
 
-public interface StudentRepository extends Repository<Student> {
+public interface StudentRepository {
 
-    List<StudentsCountByGroupDTO> countByGroup();
+    List<Student> getAllByAverageGradeGreaterThan(double grade);
+
 }

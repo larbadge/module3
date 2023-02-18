@@ -18,6 +18,7 @@ public class Lecturer {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @ToString.Exclude
     private String id;
     @Column(nullable = false)
     private String firstName;

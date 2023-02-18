@@ -3,7 +3,6 @@ package model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -15,7 +14,6 @@ import javax.persistence.OneToOne;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Subject {
 
     @Id
@@ -26,5 +24,13 @@ public class Subject {
     @OneToOne
     private Lecturer lecturer;
 
-
+    @Override
+    public String toString() {
+        String s = "%s, is taught %s";
+        if (lecturer != null) {
+            return String.format(s, getName(), lecturer.getLastName());
+        } else {
+            return String.format(s, getName(), "none");
+        }
+    }
 }

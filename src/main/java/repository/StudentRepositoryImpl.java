@@ -1,32 +1,35 @@
 package repository;
 
-import dto.StudentsCountByGroupDTO;
 import model.Student;
+import model.Student_;
+import model.Subject;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 import static jpa.JpaUtil.getEntityManager;
 
-public class StudentRepositoryImpl extends JpaRepository<Student> implements StudentRepository {
-
-    public StudentRepositoryImpl() {
-        super(Student.class);
-    }
+class StudentRepositoryImpl implements StudentRepository {
 
     @Override
-    public List<StudentsCountByGroupDTO> countByGroup() {
+    public List<Student> getAllByAverageGradeGreaterThan(double grade) {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Student> query = cb.createQuery(Student.class);
+        Root<Student> root = query.from(Student.class);
 
-        String jpql = "SELECT NEW " + StudentsCountByGroupDTO.class.getName() + "(g.name, COUNT(s)) " +
-                "FROM Group g " +
-                "JOIN g.students s " +
-                "GROUP BY g.name";
-        return getEntityManager().createQuery(jpql, StudentsCountByGroupDTO.class)
-                .getResultList();
-    }
+        Subquery<Double> subQuery = query.subquery(Double.class);
+        Root<Student> subRoot = subQuery.from(Student.class);
+        MapJoin<Student, Subject, Double> gradesMapJoin = subRoot.join(Student_.grades);
+        subQuery.select(cb.avg(gradesMapJoin.value()))
+                .where(cb.equal(subRoot, root));
 
-    public static void main(String[] args) {
+        query.select(root)
+                .where(cb.greaterThan(subQuery, grade));
 
-
+        return em.createQuery(query).getResultList();
     }
 
 }
+

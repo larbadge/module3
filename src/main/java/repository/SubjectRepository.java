@@ -1,6 +1,8 @@
 package repository;
 
-import model.Subject;
+import dto.TopAndBottomPerformingSubjects;
 
-public interface SubjectRepository extends Repository<Subject> {
+public interface SubjectRepository {
+
+    TopAndBottomPerformingSubjects getTopAndBottomPerformingSubjects();
 }
