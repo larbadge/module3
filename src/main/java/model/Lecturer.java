@@ -36,7 +36,7 @@ public class Lecturer {
 
     @Override
     public String toString() {
-        String str = "%s %s, %d years old, teach %s subject";
+        String str = "%s %s %d years old, teaches %s";
         if (subject != null) {
             return String.format(str, getFirstName(), getLastName(), getAge(), getSubject().getName());
         } else {

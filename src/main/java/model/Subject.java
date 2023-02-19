@@ -26,7 +26,7 @@ public class Subject {
 
     @Override
     public String toString() {
-        String s = "%s, teach %s %s";
+        String s = "%s teaches %s %s";
         if (lecturer != null) {
             return String.format(s, getName(), lecturer.getFirstName(), lecturer.getLastName());
         } else {

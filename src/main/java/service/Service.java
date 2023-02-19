@@ -1,10 +1,14 @@
 package service;
 
+import model.Group;
 import model.Lecturer;
 import model.Student;
 import repository.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static util.RandomGenerator.*;
 
 public class Service {
 
@@ -66,6 +70,24 @@ public class Service {
         var dto = subjectRepository.getTopAndBottomPerformingSubjects();
         System.out.println(dto);
 
+    }
+
+    public void createAndPrintRandomStudent() {
+        var subjects = subjectRepository.getTopAndBottomPerformingSubjects();
+        Group group = Group.builder()
+                .name("RANDOM")
+                .build();
+        Student randomStudent = Student.builder()
+                .firstName(getString())
+                .lastName(getString())
+                .age(getAge())
+                .entryDate(LocalDateTime.of(2022, 9, 1, 9, 0))
+                .addGrade(subjects.getBottomSubject(), getRandomGrade())
+                .addGrade(subjects.getTopSubject(), getRandomGrade())
+                .group(group)
+                .build();
+
+        System.out.println(randomStudent);
     }
 
 }

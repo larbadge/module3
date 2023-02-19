@@ -63,7 +63,7 @@ public enum Actions implements Action {
         }
     },
 
-    GRADE_GRATER_THAN_STUDENTS("Students whose average grade is higher than a input value") {
+    GRADE_GRATER_THAN_STUDENTS("Students whose average grade is higher than a input value (grade 0-100)") {
         @Override
         public void execute() {
             System.out.print("Write grade for search students whose average grade is higher than it: ");
@@ -71,6 +71,15 @@ public enum Actions implements Action {
             System.out.println(PERFORMING);
             SERVICE.printStudentsWithAverageGradeUpperThan(grade);
             log.info("Printed {}: {}", this.getMessage().toLowerCase(), grade);
+        }
+    },
+
+    PRINT_RANDOM_STUDENT("Create and print random student") {
+        @Override
+        public void execute() {
+            System.out.println(PERFORMING);
+            SERVICE.createAndPrintRandomStudent();
+            log.info("Created and printed random student");
         }
     };
 
