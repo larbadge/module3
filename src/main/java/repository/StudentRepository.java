@@ -1,11 +1,11 @@
 package repository;
 
-import model.Student;
+import dto.StudentAverageGrade;
 
 import java.util.List;
 
 public interface StudentRepository {
 
-    List<Student> getAllByAverageGradeGreaterThan(double grade);
+    List<StudentAverageGrade> getAllByAverageGradeGreaterThan(double grade);
 
 }

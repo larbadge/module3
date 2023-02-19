@@ -1,5 +1,6 @@
 package service;
 
+import dto.StudentAverageGrade;
 import model.Group;
 import model.Lecturer;
 import model.Student;
@@ -30,7 +31,7 @@ public class Service {
     }
 
     public void printStudentsWithAverageGradeUpperThan(double grade) {
-        List<Student> grades = studentRepository.getAllByAverageGradeGreaterThan(grade);
+        List<StudentAverageGrade> grades = studentRepository.getAllByAverageGradeGreaterThan(grade);
         if (grades.size() != 0) {
             grades.forEach(System.out::println);
         } else {

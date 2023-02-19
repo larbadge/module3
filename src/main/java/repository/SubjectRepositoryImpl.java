@@ -34,7 +34,6 @@ class SubjectRepositoryImpl implements SubjectRepository {
                 .setMaxResults(1)
                 .getSingleResult();
 
-
         return TopAndBottomPerformingSubjects.builder()
                 .bottomSubjectAverageGrade(bottom.getAverageGrade())
                 .bottomSubject(bottom.getSubject())

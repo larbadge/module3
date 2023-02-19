@@ -6,7 +6,6 @@ import model.Lecturer_;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -21,14 +20,12 @@ class LecturerRepositoryImpl implements LecturerRepository {
         CriteriaQuery<Lecturer> query = cb.createQuery(Lecturer.class);
 
         Root<Lecturer> root = query.from(Lecturer.class);
-
-        Predicate names = cb.or(
-                cb.like(cb.upper(root.get(Lecturer_.firstName)), name.toUpperCase()),
-                cb.like(cb.upper(root.get(Lecturer_.lastName)), name.toUpperCase())
-        );
-
-        query.where(names);
+        query.where(cb.or(
+                cb.like(root.get(Lecturer_.firstName), name),
+                cb.like(root.get(Lecturer_.lastName), name)
+        ));
 
         return em.createQuery(query).getResultList();
     }
+
 }

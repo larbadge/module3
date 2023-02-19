@@ -1,5 +1,6 @@
 package repository;
 
+import dto.StudentAverageGrade;
 import model.Student;
 import model.Student_;
 import model.Subject;
@@ -13,10 +14,10 @@ import static util.JpaUtil.getEntityManager;
 class StudentRepositoryImpl implements StudentRepository {
 
     @Override
-    public List<Student> getAllByAverageGradeGreaterThan(double grade) {
+    public List<StudentAverageGrade> getAllByAverageGradeGreaterThan(double grade) {
         EntityManager em = getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Student> query = cb.createQuery(Student.class);
+        CriteriaQuery<StudentAverageGrade> query = cb.createQuery(StudentAverageGrade.class);
         Root<Student> root = query.from(Student.class);
 
         Subquery<Double> subQuery = query.subquery(Double.class);
@@ -25,7 +26,7 @@ class StudentRepositoryImpl implements StudentRepository {
         subQuery.select(cb.avg(gradesMapJoin.value()))
                 .where(cb.equal(subRoot, root));
 
-        query.select(root)
+        query.select(cb.construct(StudentAverageGrade.class, root, subQuery))
                 .where(cb.greaterThan(subQuery, grade));
 
         return em.createQuery(query).getResultList();
