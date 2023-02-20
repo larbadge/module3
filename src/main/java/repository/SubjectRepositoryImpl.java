@@ -8,10 +8,19 @@ import model.Subject;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
+import java.util.List;
 
 import static util.JpaUtil.getEntityManager;
 
 class SubjectRepositoryImpl implements SubjectRepository {
+
+    @Override
+    public List<Subject> getRandomSubjects(int count) {
+        EntityManager em = getEntityManager();
+        return em.createQuery("SELECT s FROM Subject s ORDER BY RAND()", Subject.class)
+                .setMaxResults(count)
+                .getResultList();
+    }
 
     @Override
     public TopAndBottomPerformingSubjects getTopAndBottomPerformingSubjects() {
@@ -19,7 +28,7 @@ class SubjectRepositoryImpl implements SubjectRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<SubjectAverageGrade> query = cb.createQuery(SubjectAverageGrade.class);
         Root<Student> root = query.from(Student.class);
-        MapJoin<Student, Subject, Double> grades = root.join(Student_.grades);
+        MapJoin<Student, Subject, Integer> grades = root.join(Student_.grades);
 
         Expression<Double> avgGrade = cb.avg(grades.value());
         query.multiselect(grades.key(), avgGrade)

@@ -9,9 +9,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.util.List;
 
+import static util.JpaUtil.doWithinTransaction;
 import static util.JpaUtil.getEntityManager;
 
 class StudentRepositoryImpl implements StudentRepository {
+
+    @Override
+    public void save(Student student) {
+        doWithinTransaction(em -> em.persist(student));
+    }
 
     @Override
     public List<StudentAverageGrade> getAllByAverageGradeGreaterThan(double grade) {
@@ -22,7 +28,7 @@ class StudentRepositoryImpl implements StudentRepository {
 
         Subquery<Double> subQuery = query.subquery(Double.class);
         Root<Student> subRoot = subQuery.from(Student.class);
-        MapJoin<Student, Subject, Double> gradesMapJoin = subRoot.join(Student_.grades);
+        MapJoin<Student, Subject, Integer> gradesMapJoin = subRoot.join(Student_.grades);
         subQuery.select(cb.avg(gradesMapJoin.value()))
                 .where(cb.equal(subRoot, root));
 

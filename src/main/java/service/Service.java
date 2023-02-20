@@ -1,13 +1,16 @@
 package service;
 
 import dto.StudentAverageGrade;
-import model.Group;
 import model.Lecturer;
 import model.Student;
+import model.Subject;
 import repository.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 import static util.RandomGenerator.*;
 
@@ -49,7 +52,7 @@ public class Service {
     }
 
     public void printGroupsByName(String name) {
-        List<String> groups = groupRepository.getAllByName(name);
+        List<String> groups = groupRepository.getNamesByPattern(name);
         if (groups.size() != 0) {
             groups.forEach(System.out::println);
         } else {
@@ -74,21 +77,26 @@ public class Service {
     }
 
     public void createAndPrintRandomStudent() {
-        var subjects = subjectRepository.getTopAndBottomPerformingSubjects();
-        Group group = Group.builder()
-                .name("RANDOM")
-                .build();
+        var randomGroup = groupRepository.getByName("RANDOM");
+
+        LocalDateTime entry = LocalDateTime.of(2022, 9, 1, 9, 0);
+
+        Map<Subject, Integer> grades = new HashMap<>();
+        List<Subject> randomSubjects = subjectRepository.getRandomSubjects(3);
+        IntStream.range(0, randomSubjects.size())
+                .forEach(i -> grades.put(randomSubjects.get(i), getRandomGrade()));
+
         Student randomStudent = Student.builder()
                 .firstName(getString())
                 .lastName(getString())
                 .age(getAge())
-                .entryDate(LocalDateTime.of(2022, 9, 1, 9, 0))
-                .addGrade(subjects.getBottomSubject(), getRandomGrade())
-                .addGrade(subjects.getTopSubject(), getRandomGrade())
-                .group(group)
+                .entryDate(entry)
+                .group(randomGroup)
+                .addGrades(grades)
                 .build();
 
+        studentRepository.save(randomStudent);
         System.out.println(randomStudent);
     }
-
+    
 }

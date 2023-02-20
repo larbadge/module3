@@ -13,7 +13,16 @@ import static util.JpaUtil.getEntityManager;
 class GroupRepositoryImpl implements GroupRepository {
 
     @Override
-    public List<String> getAllByName(String name) {
+    public Group getByName(String name) {
+        EntityManager em = getEntityManager();
+
+        return em.createQuery("Select g FROM Group g WHERE g.name = :name", Group.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
+
+    @Override
+    public List<String> getNamesByPattern(String name) {
         String jpql = "SELECT g.name FROM Group g WHERE g.name LIKE :name";
         return getEntityManager().createQuery(jpql, String.class)
                 .setParameter("name", "%" + name + "%")
@@ -41,7 +50,7 @@ class GroupRepositoryImpl implements GroupRepository {
         CriteriaQuery<GroupAverageGrade> query = cb.createQuery(GroupAverageGrade.class);
         Root<Group> root = query.from(Group.class);
 
-        MapJoin<Student, Subject, Double> join = root.join(Group_.students).join(Student_.grades);
+        MapJoin<Student, Subject, Integer> join = root.join(Group_.students).join(Student_.grades);
         query.select(cb.construct(GroupAverageGrade.class, root.get(Group_.name), cb.avg(join.value())))
                 .groupBy(root.get(Group_.id));
 

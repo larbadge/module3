@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -34,8 +33,7 @@ public class Student {
     @CollectionTable(name = "student_grades")
     @MapKeyJoinColumn(name = "subject_id")
     @Column(name = "grade")
-    @Setter(AccessLevel.NONE)
-    private Map<Subject, Double> grades = new HashMap<>();
+    private Map<Subject, Integer> grades = new HashMap<>();
     @OneToOne
     private Group group;
 
@@ -64,24 +62,19 @@ public class Student {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
-        private final String id = UUID.randomUUID().toString();
         private String firstName;
         private String lastName;
         private int age;
         private LocalDateTime entryDate;
-        private final Map<Subject, Double> grades = new HashMap<>();
+        private Map<Subject, Integer> grades;
         private Group group;
 
         public Student build() {
-            Student student = new Student(id, firstName, lastName, age, entryDate, grades, group);
-            if (group != null) {
-                group.getStudents().add(student);
-            }
             if (entryDate == null) {
                 entryDate = LocalDateTime.now();
             }
 
-            return student;
+            return new Student(null, firstName, lastName, age, entryDate, grades, group);
         }
 
         public Builder firstName(String firstName) {
@@ -109,11 +102,10 @@ public class Student {
             return this;
         }
 
-        public Builder addGrade(Subject subject, double grade) {
-            this.grades.put(subject, grade);
+        public Builder addGrades(Map<Subject, Integer> grades) {
+            this.grades = grades;
             return this;
         }
-
     }
 
 }

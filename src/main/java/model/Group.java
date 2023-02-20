@@ -1,6 +1,9 @@
 package model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,8 +16,6 @@ import java.util.List;
 @Entity
 @Table(name = "student_group")
 @ToString
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Group {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -25,7 +26,6 @@ public class Group {
     private String name;
     @OneToMany(mappedBy = "group")
     @ToString.Exclude
-    @Builder.Default
     private List<Student> students = new ArrayList<>();
 
 }

@@ -30,7 +30,8 @@ VALUES
 INSERT INTO student_group (id, name) VALUES
 (uuid_generate_v4(), 'HT-32'),
 (uuid_generate_v4(), 'MX-13'),
-(uuid_generate_v4(), 'MIT-23');
+(uuid_generate_v4(), 'MIT-23'),
+(uuid_generate_v4(), 'RANDOM');
 
 INSERT INTO student (id, age, entry_date, first_name, last_name, group_id)
 VALUES
